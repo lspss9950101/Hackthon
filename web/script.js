@@ -27,5 +27,6 @@ function post() {
             'content-type': 'application/json'
         },
         method: 'POST'
-    });
+    })
+    .then(() => initMap());
 }
