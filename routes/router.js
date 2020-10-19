@@ -23,4 +23,13 @@ router.get('/api/getMarkers', (req, res) => {
     });
 });
 
+router.get('/api/clear', (req, res) => {
+    db.serialize(() => {
+        db.run('CREATE TABLE IF NOT EXISTS map (LAT REAL, LNG REAL)');
+        let deletion = 'DELETE FROM map';
+        db.run(deletion);
+        res.end();
+    });
+});
+
 module.exports = router;

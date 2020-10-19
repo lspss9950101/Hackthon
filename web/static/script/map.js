@@ -30,3 +30,8 @@ function post() {
     })
     .then(() => initMap());
 }
+
+module.exports = {
+    initMap: initMap,
+    post: post
+};
