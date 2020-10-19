@@ -1,9 +1,12 @@
 import React from 'react';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import GoogleMap from './Components/GoogleMap';
+import { HashRouter, NavLink, Redirect, Route } from 'react-router-dom';
+import PublicDataPage from './Components/PublicDataPage';
+
 
 class App extends React.Component {
-    constructor(props) {
+    /*constructor(props) {
         super(props);
         this.state = {
             currentLocation: {
@@ -67,6 +70,22 @@ class App extends React.Component {
                 <button onClick={() => {this.addRandomData(this.state.currentLocation);}}>Add Random Data</button>
                 <button onClick={() => {this.clearHeatmapData();}}>Clear Data</button>
             </div>
+        );
+    }*/
+    render() {
+        return (
+            <React.Fragment>
+                <HashRouter>
+                    <Navbar bg="dark" variant="dark" >
+                        <Nav className="mr-auto">
+                            <Nav.Link active href="#publics">Public Data</Nav.Link>
+                            <Nav.Link href="#individuals">Individual Data</Nav.Link>
+                        </Nav>
+                    </Navbar>
+                    <Redirect from="/" to="publics"/>
+                    <Route path="/" component={PublicDataPage} />
+                </HashRouter>
+            </React.Fragment>
         );
     }
 }

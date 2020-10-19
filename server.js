@@ -11,5 +11,5 @@ app.use('/', require('./routes/router'));
 app.use(express.static('web'));
 
 app.listen(process.env.PORT || port, () => {
-    console.log('Listening at http://localhost:$(port)');
+    console.log('Listening at http://localhost:' + port);
 });
