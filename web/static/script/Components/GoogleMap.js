@@ -17,7 +17,7 @@ class GoogleMap extends Component {
 
     render() {
         return (
-            <div style={{ height: '80%', width: '100%' }}>
+            <div style={{ height: '100%', width: '100%' }}>
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: 'AIzaSyAsG9QMB5-0Wak0u2F3c9CLF0kYQyyKHH0', libraries: ['visualization'] }}
                     center={ this.props.center }
