@@ -9,34 +9,33 @@ import {
     AreaSeries,
     LineSeries,
     MarkSeries,
-    XYPlot
+    XYPlot,
+    Crosshair
 } from 'react-vis';
 
 function Graph({ data, index, linkFunction, max, min }) {
     return (
         <Container style={{ width: '100%', height: '30vh' }}>
             <FlexibleXYPlot
-                yDomain={[2*min, 2*max]}
+                yDomain={[2 * min, 2 * max]}
                 onMouseLeave={() => linkFunction(null)}
             >
                 <VerticalGridLines />
                 <HorizontalGridLines />
                 <XAxis />
                 <YAxis />
-                <LineSeries
+                <AreaSeries
                     className="first-series"
                     curve="curveNatural"
                     data={data}
-                    onNearestX={(datapoint, { index }) => linkFunction(index)}
+                    onNearestX={(datapoint) => linkFunction(datapoint)}
                 />
-                {index === null ? null : <LineSeries
-                    data={[{ x: index, y: max }, { x: index, y: min }]}
-                    opacity={0.5} />
-                }
-                {index === null ? null : <MarkSeries
-                    data={[data[index]]}
-                    stroke="white" />
-                }
+                {index === null ? null : <Crosshair values={[index]}>
+                    <div style={{ background: 'black' }}>
+                        <h3>Values of crosshair:</h3>
+                        <p>Series 1: {index.x}</p>
+                    </div>
+                </Crosshair>}
             </FlexibleXYPlot>
         </Container>
     );

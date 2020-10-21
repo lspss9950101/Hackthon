@@ -3,7 +3,7 @@ import { Button, Card, Container } from 'react-bootstrap';
 import Graph from './Graph';
 
 const data = [...Array(100).keys()
-].map(d => ({ x: d, y: Math.random() * 20 - 10 }));
+].map(d => ({ x: d, y: Math.random() * 20 - 10, y0: 0 }));
 
 const DataCard = (props) => (
     <Card>
