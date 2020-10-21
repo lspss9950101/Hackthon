@@ -1,5 +1,3 @@
-const { ContinuousSizeLegend } = require('react-vis');
-
 const uuidSocketMapping = {};
 module.exports = {
     init: (server) => {
