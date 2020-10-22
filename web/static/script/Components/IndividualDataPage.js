@@ -9,20 +9,41 @@ class IndividualDataPage extends React.Component {
         this.state = {
             index: null,
             ws: null,
-            data: []
+            data: {
+                gyro_x: [],
+                gyro_y: [],
+                gyro_z: [],
+                acc_x: [],
+                acc_y: [],
+                acc_z: []
+            }
         };
         this.handleMouseOver = this.handleMouseOver.bind(this);
-        this.data = [];
     }
 
     initSocket() {
         this.state.ws.on('updateData', data => {
             this.setState((state) => {
-                state.data.push({x: parseInt(data.x), y: data.y});
-                //state.data.push(data);
-                if(state.data.length > 100)
-                    state.data = state.data.splice(1);
-                console.log(state.data);
+                let time = data['timestamp'];
+                state.data.gyro_x.push({ x: time, y: data['gyro_x'], y0: 0 });
+                state.data.gyro_y.push({ x: time, y: data['gyro_y'], y0: 0 });
+                state.data.gyro_z.push({ x: time, y: data['gyro_z'], y0: 0 });
+                state.data.acc_x.push({ x: time, y: data['acc_x'], y0: 0 });
+                state.data.acc_y.push({ x: time, y: data['acc_y'], y0: 0 });
+                state.data.acc_z.push({ x: time, y: data['acc_z'], y0: 0 });
+
+                if (state.data.gyro_x.length > 100)
+                    state.data.gyro_x = state.data.gyro_x.splice(1);
+                if (state.data.gyro_y.length > 100)
+                    state.data.gyro_y = state.data.gyro_y.splice(1);
+                if (state.data.gyro_z.length > 100)
+                    state.data.gyro_z = state.data.gyro_z.splice(1);
+                if (state.data.acc_x.length > 100)
+                    state.data.acc_x = state.data.acc_x.splice(1);
+                if (state.data.acc_y.length > 100)
+                    state.data.acc_y = state.data.acc_y.splice(1);
+                if (state.data.acc_z.length > 100)
+                    state.data.acc_z = state.data.acc_z.splice(1);
                 return state;
             });
         });
@@ -36,12 +57,12 @@ class IndividualDataPage extends React.Component {
     }
 
     componentWillUnmount() {
-        if(this.state.ws)
+        if (this.state.ws)
             this.state.ws.close();
     }
 
     handleMouseOver(index) {
-        this.setState({index});
+        this.setState({ index });
     }
 
     render() {
@@ -49,22 +70,22 @@ class IndividualDataPage extends React.Component {
             <Container fluid>
                 <Row lg={3} md={2} sm={1} >
                     <Col>
-                        <DataCard title={'IMU'} data={this.state.data} index={this.state.index} linkFunction={this.handleMouseOver} />
+                        <DataCard title={'Gyro X'} color={'#4DD0E1'} stroke={'#0097A7'} data={this.state.data.gyro_x} index={this.state.index} linkFunction={this.handleMouseOver} />
                     </Col>
                     <Col>
-                        <DataCard data={this.state.data} index={this.state.index} linkFunction={this.handleMouseOver} />
+                        <DataCard title={'Gyro Y'} color={'#4FC3F7'} stroke={'#0288D1'} data={this.state.data.gyro_y} index={this.state.index} linkFunction={this.handleMouseOver} />
                     </Col>
                     <Col>
-                        <DataCard data={this.state.data} index={this.state.index} linkFunction={this.handleMouseOver} />
+                        <DataCard title={'Gyro Z'} color={'#64B5F6'} stroke={'#1976D2'} data={this.state.data.gyro_z} index={this.state.index} linkFunction={this.handleMouseOver} />
                     </Col>
                     <Col>
-                        <DataCard data={this.state.data} index={this.state.index} linkFunction={this.handleMouseOver} />
+                        <DataCard title={'Acc X'} color={'#7986CB'} stroke={'#303F9F'} data={this.state.data.acc_x} index={this.state.index} linkFunction={this.handleMouseOver} />
                     </Col>
                     <Col>
-                        <DataCard data={this.state.data} index={this.state.index} linkFunction={this.handleMouseOver} />
+                        <DataCard title={'Acc Y'} color={'#BA68C8'} stroke={'#7B1FA2'} data={this.state.data.acc_y} index={this.state.index} linkFunction={this.handleMouseOver} />
                     </Col>
                     <Col>
-                        <DataCard data={this.state.data} index={this.state.index} linkFunction={this.handleMouseOver} />
+                        <DataCard title={'Acc Z'} color={'#9575CD'} stroke={'#512DA8'} data={this.state.data.acc_z} index={this.state.index} linkFunction={this.handleMouseOver} />
                     </Col>
                 </Row>
             </Container>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, Container } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import Graph from './Graph';
 
 const data = [...Array(100).keys()
@@ -9,7 +9,7 @@ const DataCard = (props) => (
     <Card style={{ margin: '8px' }}>
         <Card.Body>
             <Card.Title>{ props.title }</Card.Title>
-            <Graph data={ props.data.map(d => {d['y0'] = 0; return d;}) } index={props.index} linkFunction={props.linkFunction} max={Math.max(...data.map(d=>d.y))} min={Math.min(...data.map(d=>d.y))} />
+            <Graph data={ props.data } index={props.index} linkFunction={props.linkFunction} color={props.color} />
         </Card.Body>
     </Card>
 );
