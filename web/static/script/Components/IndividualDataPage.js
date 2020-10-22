@@ -70,22 +70,22 @@ class IndividualDataPage extends React.Component {
             <Container fluid>
                 <Row lg={3} md={2} sm={1} >
                     <Col>
-                        <DataCard title={'Gyro X'} color={'#4DD0E1'} stroke={'#0097A7'} data={this.state.data.gyro_x} index={this.state.index} linkFunction={this.handleMouseOver} />
+                        <DataCard title={'Gyro X'} color={'#4FC3F7'} stroke={'#4DD0E1'} data={this.state.data.gyro_x} index={this.state.index} linkFunction={this.handleMouseOver} />
                     </Col>
                     <Col>
-                        <DataCard title={'Gyro Y'} color={'#4FC3F7'} stroke={'#0288D1'} data={this.state.data.gyro_y} index={this.state.index} linkFunction={this.handleMouseOver} />
+                        <DataCard title={'Gyro Y'} color={'#64B5F6'} stroke={'#4FC3F7'} data={this.state.data.gyro_y} index={this.state.index} linkFunction={this.handleMouseOver} />
                     </Col>
                     <Col>
-                        <DataCard title={'Gyro Z'} color={'#64B5F6'} stroke={'#1976D2'} data={this.state.data.gyro_z} index={this.state.index} linkFunction={this.handleMouseOver} />
+                        <DataCard title={'Gyro Z'} color={'#7986CB'} stroke={'#64B5F6'} data={this.state.data.gyro_z} index={this.state.index} linkFunction={this.handleMouseOver} />
                     </Col>
                     <Col>
-                        <DataCard title={'Acc X'} color={'#7986CB'} stroke={'#303F9F'} data={this.state.data.acc_x} index={this.state.index} linkFunction={this.handleMouseOver} />
+                        <DataCard title={'Acc X'} color={'#BA68C8'} stroke={'#7986CB'} data={this.state.data.acc_x} index={this.state.index} linkFunction={this.handleMouseOver} />
                     </Col>
                     <Col>
-                        <DataCard title={'Acc Y'} color={'#BA68C8'} stroke={'#7B1FA2'} data={this.state.data.acc_y} index={this.state.index} linkFunction={this.handleMouseOver} />
+                        <DataCard title={'Acc Y'} color={'#9575CD'} stroke={'#BA68C8'} data={this.state.data.acc_y} index={this.state.index} linkFunction={this.handleMouseOver} />
                     </Col>
                     <Col>
-                        <DataCard title={'Acc Z'} color={'#9575CD'} stroke={'#512DA8'} data={this.state.data.acc_z} index={this.state.index} linkFunction={this.handleMouseOver} />
+                        <DataCard title={'Acc Z'} color={'#F06292'} stroke={'#9575CD'} data={this.state.data.acc_z} index={this.state.index} linkFunction={this.handleMouseOver} />
                     </Col>
                 </Row>
             </Container>

@@ -9,7 +9,7 @@ const DataCard = (props) => (
     <Card style={{ margin: '8px' }}>
         <Card.Body>
             <Card.Title>{ props.title }</Card.Title>
-            <Graph data={ props.data } index={props.index} linkFunction={props.linkFunction} color={props.color} />
+            <Graph data={ props.data } index={props.index} linkFunction={props.linkFunction} color={props.color} stroke={props.stroke} />
         </Card.Body>
     </Card>
 );

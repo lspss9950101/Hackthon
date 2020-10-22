@@ -7,39 +7,56 @@ import {
     HorizontalGridLines,
     FlexibleXYPlot,
     AreaSeries,
-    Crosshair
+    LineSeries,
+    MarkSeries,
+    Crosshair,
+    GradientDefs
 } from 'react-vis';
 import '../../../../node_modules/react-vis/dist/style.css';
 
-function Graph({ data, index, linkFunction, max, min, color, stroke }) {
+function Graph({ data, index, linkFunction, color, stroke }) {
     let bound = Math.max(Math.abs(Math.min(0, ...(data.map(d => d.y))) * 2), Math.abs(Math.max(0, ...(data.map(d => d.y))) * 2));
     return (
         <Container style={{ width: '100%', height: '30vh' }}>
             <FlexibleXYPlot
                 xType={'time'}
-                xDomain={ data.length > 1 ? [data[data.length-1].x-(data[data.length-1].x - data[data.length-2].x)*100, data[data.length-1].x] : [0, 1] }
+                xDomain={data.length > 1 ? [data[data.length - 1].x - (data[data.length - 1].x - data[data.length - 2].x) * 100, data[data.length - 1].x] : [0, 1]}
                 yDomain={[-bound, bound]}
                 onMouseLeave={() => linkFunction(null)}
             >
+                <GradientDefs>
+                    <linearGradient id={"gradient" + color} x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stopColor={stroke} stopOpacity={0.8} />
+                        <stop offset="100%" stopColor={stroke} stopOpacity={0.3} />
+                    </linearGradient>
+                </GradientDefs>
+
                 <VerticalGridLines />
                 <HorizontalGridLines />
                 <XAxis />
                 <YAxis />
                 <AreaSeries
-                    className="first-series"
-                    color={color}
-                    opacity={0.75}
-                    stroke={stroke}
+                    color={'url(#gradient'+color+')'}
                     curve="curveNatural"
                     data={data}
                     onNearestX={(datapoint) => linkFunction(datapoint)}
                 />
+                <LineSeries
+                    color={stroke}
+                    curve="curveNatural"
+                    strokeWidth={1}
+                    data={data}
+                />
                 {index === null ? null : <Crosshair
                     values={[data.find(d => d.x == index.x)]}
-                    titleFormat={(d) => ({title: 'Time', value: (new Date(d[0].x)).toTimeString()})}
-                    itemsFormat={(d) => ([{title: 'Value', value: d[0].y.toFixed(5)}])}
-                >
-                </Crosshair>}
+                    titleFormat={(d) => ({ title: 'Time', value: (new Date(d[0].x)).toTimeString() })}
+                    itemsFormat={(d) => ([{ title: 'Value', value: d[0].y.toFixed(5) }])}
+                />}
+                {index === null ? null : <MarkSeries
+                    color={stroke}
+                    size={2}
+                    data={[data.find(d => d.x == index.x)]}
+                />}
             </FlexibleXYPlot>
         </Container>
     );

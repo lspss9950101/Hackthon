@@ -9,7 +9,7 @@ const port = 8080;
 
 socketUtil.init(server);
 
-setInterval(() => {
+/*setInterval(() => {
     dataUtil.appendData('0', socketUtil.uuidSocketMapping, {
         timestamp: Date.now(),
         gyro_x: Math.random() * 20 - 10,
@@ -20,6 +20,7 @@ setInterval(() => {
         acc_z: Math.random() * 90 - 10
     });
 }, 1000);
+*/
 
 const bodyParser = require('body-parser');
 
