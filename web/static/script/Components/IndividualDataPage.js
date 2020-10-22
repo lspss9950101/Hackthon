@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
 import DataCard from './DataCard';
 import webSocket from 'socket.io-client'
@@ -32,18 +32,14 @@ class IndividualDataPage extends React.Component {
                 state.data.acc_y.push({ x: time, y: data['acc_y'], y0: 0 });
                 state.data.acc_z.push({ x: time, y: data['acc_z'], y0: 0 });
 
-                if (state.data.gyro_x.length > 100)
-                    state.data.gyro_x = state.data.gyro_x.splice(1);
-                if (state.data.gyro_y.length > 100)
-                    state.data.gyro_y = state.data.gyro_y.splice(1);
-                if (state.data.gyro_z.length > 100)
-                    state.data.gyro_z = state.data.gyro_z.splice(1);
-                if (state.data.acc_x.length > 100)
-                    state.data.acc_x = state.data.acc_x.splice(1);
-                if (state.data.acc_y.length > 100)
-                    state.data.acc_y = state.data.acc_y.splice(1);
-                if (state.data.acc_z.length > 100)
-                    state.data.acc_z = state.data.acc_z.splice(1);
+                time = time - 120*1000;
+                state.data.gyro_x = state.data.gyro_x.filter(d => time <= d.x);
+                state.data.gyro_y = state.data.gyro_x.filter(d => time <= d.x);
+                state.data.gyro_z = state.data.gyro_x.filter(d => time <= d.x);
+                state.data.acc_x = state.data.acc_x.filter(d => time <= d.x);
+                state.data.acc_y = state.data.acc_y.filter(d => time <= d.x);
+                state.data.acc_z = state.data.acc_z.filter(d => time <= d.x);
+
                 return state;
             });
         });

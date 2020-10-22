@@ -20,7 +20,7 @@ function Graph({ data, index, linkFunction, color, stroke }) {
         <Container style={{ width: '100%', height: '30vh' }}>
             <FlexibleXYPlot
                 xType={'time'}
-                xDomain={data.length > 1 ? [data[data.length - 1].x - (data[data.length - 1].x - data[data.length - 2].x) * 100, data[data.length - 1].x] : [0, 1]}
+                xDomain={data.length ? [data[data.length - 1].x - 120*1000, data[data.length - 1].x] : [0, 1]}
                 yDomain={[-bound, bound]}
                 onMouseLeave={() => linkFunction(null)}
             >

@@ -32,5 +32,5 @@ app.use('/', require('./routes/router'));
 app.use(express.static('web'));
 
 server.listen(process.env.PORT || port, () => {
-    console.log('Listening at http://localhost:' + process.env.PORT || port);
+    console.log('Listening at http://localhost:' + (process.env.PORT || port));
 });
