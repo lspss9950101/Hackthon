@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 
-let data = {
+let data = () => ({
     "uuid": '0',
     "location": {
         "lat": 40.00,
@@ -19,15 +19,16 @@ let data = {
     "air_quality": Math.random(),
     "temp": Math.random()*3+25,
     "pressure": Math.random()*20+1000
-}
+});
 
+setInterval(() => {
 fetch('http://localhost:8080/api/uploadRoutineData', {
     method: 'POST',
-    body: JSON.stringify(data),
+    body: JSON.stringify(data()),
     headers: {
         'Content-Type': 'application/json'
     }
 })
 .catch(e => {
     console.log(e);
-});
+});}, 1000);
