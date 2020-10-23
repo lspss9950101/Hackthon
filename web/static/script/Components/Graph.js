@@ -31,23 +31,21 @@ function Graph({ data, index, linkFunction, color, stroke }) {
                     </linearGradient>
                 </GradientDefs>
 
-                <VerticalGridLines animation/>
-                <HorizontalGridLines animation/>
-                <XAxis animation/>
-                <YAxis animation/>
+                <VerticalGridLines />
+                <HorizontalGridLines />
+                <XAxis />
+                <YAxis />
                 <AreaSeries
                     color={'url(#gradient'+color+')'}
                     curve="curveNatural"
                     data={data}
                     onNearestX={(datapoint) => linkFunction(datapoint)}
-                    animation
                 />
                 <LineSeries
                     color={stroke}
                     curve="curveNatural"
                     strokeWidth={1}
                     data={data}
-                    animation
                 />
                 {index === null ? null : <Crosshair
                     values={[data.find(d => d.x == index.x)]}

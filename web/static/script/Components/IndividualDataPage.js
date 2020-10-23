@@ -18,7 +18,8 @@ class IndividualDataPage extends React.Component {
                 acc_z: []
             },
             hasLoggedIn: false,
-            uuidInputRef: React.createRef()
+            uuidInputRef: React.createRef(),
+            detailPanel: false
         };
         this.handleMouseOver = this.handleMouseOver.bind(this);
     }
@@ -35,11 +36,7 @@ class IndividualDataPage extends React.Component {
                 state.data.acc_z.push({ x: time, y: data['acc_z'], y0: 0 });
 
                 time = time - 120 * 1000;
-                //state.data.gyro_x = state.data.gyro_x.filter(d => time <= d.x);
-                state.data.gyro_x = state.data.gyro_x.map(d => {
-                    if(time > d.x) return {x: time, y: 0, y0: 0}
-                    return d;
-                });
+                state.data.gyro_x = state.data.gyro_x.filter(d => time <= d.x);
                 state.data.gyro_y = state.data.gyro_y.filter(d => time <= d.x);
                 state.data.gyro_z = state.data.gyro_z.filter(d => time <= d.x);
                 state.data.acc_x = state.data.acc_x.filter(d => time <= d.x);
@@ -77,26 +74,32 @@ class IndividualDataPage extends React.Component {
             <React.Fragment>
                 <Container fluid>
                     <Row xl={3} lg={2} md={1} sm={1} >
-                        <Col>
+                        <Col onClick={() => {this.setState({detailPanel: true});}}>
                             <DataCard title={'Gyro X'} color={'#4FC3F7'} stroke={'#4DD0E1'} data={this.state.data.gyro_x} index={this.state.index} linkFunction={this.handleMouseOver} />
                         </Col>
-                        <Col>
+                        <Col onClick={() => {this.setState({detailPanel: true});}}>
                             <DataCard title={'Gyro Y'} color={'#64B5F6'} stroke={'#4FC3F7'} data={this.state.data.gyro_y} index={this.state.index} linkFunction={this.handleMouseOver} />
                         </Col>
-                        <Col>
+                        <Col onClick={() => {this.setState({detailPanel: true});}}>
                             <DataCard title={'Gyro Z'} color={'#7986CB'} stroke={'#64B5F6'} data={this.state.data.gyro_z} index={this.state.index} linkFunction={this.handleMouseOver} />
                         </Col>
-                        <Col>
+                        <Col onClick={() => {this.setState({detailPanel: true});}}>
                             <DataCard title={'Acc X'} color={'#BA68C8'} stroke={'#7986CB'} data={this.state.data.acc_x} index={this.state.index} linkFunction={this.handleMouseOver} />
                         </Col>
-                        <Col>
+                        <Col onClick={() => {this.setState({detailPanel: true});}}>
                             <DataCard title={'Acc Y'} color={'#9575CD'} stroke={'#BA68C8'} data={this.state.data.acc_y} index={this.state.index} linkFunction={this.handleMouseOver} />
                         </Col>
-                        <Col>
+                        <Col onClick={() => {this.setState({detailPanel: true});}}>
                             <DataCard title={'Acc Z'} color={'#F06292'} stroke={'#9575CD'} data={this.state.data.acc_z} index={this.state.index} linkFunction={this.handleMouseOver} />
                         </Col>
                     </Row>
                 </Container>
+
+                <Modal show={this.state.detailPanel} onHide={() => {this.setState({detailPanel: false});}}>
+                    <Modal.Body>
+                        
+                    </Modal.Body>
+                </Modal>
 
                 <Modal show={!this.state.hasLoggedIn} onHide={() => { }}>
                     <Modal.Header>
