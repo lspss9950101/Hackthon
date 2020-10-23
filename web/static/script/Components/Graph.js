@@ -15,7 +15,7 @@ import {
 import '../../../../node_modules/react-vis/dist/style.css';
 
 function Graph({ data, index, linkFunction, color, stroke }) {
-    let bound = Math.max(Math.abs(Math.min(0, ...(data.map(d => d.y))) * 2), Math.abs(Math.max(0, ...(data.map(d => d.y))) * 2));
+    let bound = Math.max(Math.abs(Math.min(0, ...(data.map(d => d.y))) * 2), Math.abs(Math.max(0, ...(data.map(d => d.y))) * 2), 1);
     return (
         <Container style={{ width: '100%', height: '30vh' }}>
             <FlexibleXYPlot
@@ -37,22 +37,22 @@ function Graph({ data, index, linkFunction, color, stroke }) {
                 <YAxis />
                 <AreaSeries
                     color={'url(#gradient'+color+')'}
-                    curve="curveNatural"
+                    curve="monotoneX"
                     data={data}
                     onNearestX={(datapoint) => linkFunction(datapoint)}
                 />
                 <LineSeries
                     color={stroke}
-                    curve="curveNatural"
+                    curve="monotoneX"
                     strokeWidth={1}
                     data={data}
                 />
-                {index === null ? null : <Crosshair
+                {index === null || data.find(d => d.x == index.x) == null ? null : <Crosshair
                     values={[data.find(d => d.x == index.x)]}
                     titleFormat={(d) => ({ title: 'Time', value: (new Date(d[0].x)).toTimeString() })}
                     itemsFormat={(d) => ([{ title: 'Value', value: d[0].y.toFixed(5) }])}
                 />}
-                {index === null ? null : <MarkSeries
+                {index === null || data.find(d => d.x == index.x) == null ? null : <MarkSeries
                     color={stroke}
                     size={2}
                     data={[data.find(d => d.x == index.x)]}
