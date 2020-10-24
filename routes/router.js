@@ -15,7 +15,8 @@ router.post('/api/uploadMarker', (req, res) => {
     });
 });
 
-router.post('/api/uploadRoutineData', (req, res) => {git
+router.post('/api/uploadRoutineData', (req, res) => {
+    console.log('/api/uploadRoutineData', req.body);
     dbRoutine = new sqlite3.Database('data/' + req.body.uuid + '.db');
     dataUtil.appendData(req.body.uuid, socketUtil.uuidSocketMapping, {
         timestamp: Date.now(),
