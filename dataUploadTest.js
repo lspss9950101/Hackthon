@@ -6,6 +6,11 @@ let data = () => ({
         "lat": 40.00,
         "lng": 33.12
     },
+    "angle": {
+        "roll": 90,
+        "pitch": 45,
+        "yaw": 0
+    },
     "gyro": {
         "x": Math.random()*20-10,
         "y": Math.random()*20-10,
@@ -18,11 +23,12 @@ let data = () => ({
     },
     "air_quality": Math.random(),
     "temp": Math.random()*3+25,
-    "pressure": Math.random()*20+1000
+    "pressure": Math.random()*20+1000,
+    "attitude": Math.random()*100+ 50
 });
 
 setInterval(() => {
-fetch('http://140.113.168.238/api/uploadRoutineData', {
+fetch('http://127.0.0.1:8080/api/uploadRoutineData', {
     method: 'POST',
     body: JSON.stringify(data()),
     headers: {

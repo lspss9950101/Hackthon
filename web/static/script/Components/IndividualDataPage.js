@@ -17,12 +17,19 @@ class IndividualDataPage extends React.Component {
             index: null,
             ws: null,
             data: {
+                roll: [...defaultData],
+                pitch: [...defaultData],
+                yaw: [...defaultData],
                 gyro_x: [...defaultData],
                 gyro_y: [...defaultData],
                 gyro_z: [...defaultData],
                 acc_x: [...defaultData],
                 acc_y: [...defaultData],
-                acc_z: [...defaultData]
+                acc_z: [...defaultData],
+                air_quality: [...defaultData],
+                temp: [...defaultData],
+                pressure: [...defaultData],
+                attitude: [...defaultData]
             },
             hasLoggedIn: false,
             uuidInputRef: React.createRef(),
@@ -39,34 +46,15 @@ class IndividualDataPage extends React.Component {
                 let time = data['timestamp'];
                 let last = state.data.gyro_x[state.data.gyro_x.length - 1].x;
                 if (time - last > 3 * 1000) {
-                    state.data.gyro_x.push({ x: last, y: 0, y0: 0 });
-                    state.data.gyro_x.push({ x: time, y: 0, y0: 0 });
-                    state.data.gyro_y.push({ x: last, y: 0, y0: 0 });
-                    state.data.gyro_y.push({ x: time, y: 0, y0: 0 });
-                    state.data.gyro_z.push({ x: last, y: 0, y0: 0 });
-                    state.data.gyro_z.push({ x: time, y: 0, y0: 0 });
-                    state.data.acc_x.push({ x: last, y: 0, y0: 0 });
-                    state.data.acc_x.push({ x: time, y: 0, y0: 0 });
-                    state.data.acc_y.push({ x: last, y: 0, y0: 0 });
-                    state.data.acc_y.push({ x: time, y: 0, y0: 0 });
-                    state.data.acc_z.push({ x: last, y: 0, y0: 0 });
-                    state.data.acc_z.push({ x: time, y: 0, y0: 0 });
+                    Object.values(this.state.data).forEach(d => {
+                        d.push({ x: last, y: 0, y0: 0 });
+                        d.push({ x: time, y: 0, y0: 0 });
+                    });
                 }
-                state.data.gyro_x.push({ x: time, y: data['gyro_x'], y0: 0 });
-                state.data.gyro_y.push({ x: time, y: data['gyro_y'], y0: 0 });
-                state.data.gyro_z.push({ x: time, y: data['gyro_z'], y0: 0 });
-                state.data.acc_x.push({ x: time, y: data['acc_x'], y0: 0 });
-                state.data.acc_y.push({ x: time, y: data['acc_y'], y0: 0 });
-                state.data.acc_z.push({ x: time, y: data['acc_z'], y0: 0 });
-
-                time = time - 120 * 1000;
-                state.data.gyro_x = state.data.gyro_x.filter(d => time <= d.x);
-                state.data.gyro_y = state.data.gyro_y.filter(d => time <= d.x);
-                state.data.gyro_z = state.data.gyro_z.filter(d => time <= d.x);
-                state.data.acc_x = state.data.acc_x.filter(d => time <= d.x);
-                state.data.acc_y = state.data.acc_y.filter(d => time <= d.x);
-                state.data.acc_z = state.data.acc_z.filter(d => time <= d.x);
-
+                Object.keys(this.state.data).forEach(k => {
+                    state.data[k].push({ x: time, y: data[k], y0: 0 });
+                    state.data[k] = state.data[k].filter(d => time - 120*1000 <= d.x);
+                });
                 return state;
             });
         });
@@ -94,6 +82,24 @@ class IndividualDataPage extends React.Component {
 
     render() {
         let panels = [
+            {
+                title: 'Roll',
+                color: '#F06292',
+                stroke: '#9575CD',
+                data: this.state.data.roll
+            },
+            {
+                title: 'Pitch',
+                color: '#F06292',
+                stroke: '#9575CD',
+                data: this.state.data.pitch
+            },
+            {
+                title: 'Yaw',
+                color: '#F06292',
+                stroke: '#9575CD',
+                data: this.state.data.yaw
+            },
             {
                 title: 'Gyro X',
                 color: '#4FC3F7',
@@ -129,7 +135,31 @@ class IndividualDataPage extends React.Component {
                 color: '#F06292',
                 stroke: '#9575CD',
                 data: this.state.data.acc_z
-            }
+            },
+            {
+                title: 'Air Quality',
+                color: '#F06292',
+                stroke: '#9575CD',
+                data: this.state.data.air_quality
+            },
+            {
+                title: 'Temperature',
+                color: '#F06292',
+                stroke: '#9575CD',
+                data: this.state.data.temp
+            },
+            {
+                title: 'Pressure',
+                color: '#F06292',
+                stroke: '#9575CD',
+                data: this.state.data.pressure
+            },
+            {
+                title: 'Attitude',
+                color: '#F06292',
+                stroke: '#9575CD',
+                data: this.state.data.attitude
+            },
         ];
         panels = panels.map(panel => (
             <Col key={panel.title} onClick={() => { this.setState({ detailPanel: panel.title }); }}>

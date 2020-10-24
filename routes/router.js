@@ -20,17 +20,24 @@ router.post('/api/uploadRoutineData', (req, res) => {
     dbRoutine = new sqlite3.Database('data/' + req.body.uuid + '.db');
     dataUtil.appendData(req.body.uuid, socketUtil.uuidSocketMapping, {
         timestamp: Date.now(),
+        roll: req.body.angle.roll,
+        pitch: req.body.angle.pitch,
+        yaw: req.body.angle.yaw,
         gyro_x: req.body.gyro.x,
         gyro_y: req.body.gyro.y,
         gyro_z: req.body.gyro.z,
         acc_x: req.body.acc.x,
         acc_y: req.body.acc.y,
-        acc_z: req.body.acc.z
+        acc_z: req.body.acc.z,
+        pressure: req.body.pressure,
+        temp: req.body.temp,
+        air_quality: req.body.air_quality,
+        attitude: req.body.attitude
     });
     dbRoutine.serialize(() => {
-        dbRoutine.run('CREATE TABLE IF NOT EXISTS routine (timestamp INTEGER, lat REAL, lng REAL, acc_x REAL, acc_y REAL, acc_z REAL, gyro_x REAL, gyro_y REAL, gyro_z REAL, pressure REAL, temp REAL, air REAL)');
-        let insert = "INSERT INTO routine(timestamp, lat, lng, gyro_x, gyro_y, gyro_z, acc_x, acc_y, acc_z, pressure, temp, air) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        dbRoutine.run(insert, [Date.now(), req.body.location.lat, req.body.location.lng, req.body.gyro.x, req.body.gyro.y, req.body.gyro.z, req.body.acc.x, req.body.acc.y, req.body.acc.z, req.body.pressure, req.body.temp, req.body.air_quality]);
+        dbRoutine.run('CREATE TABLE IF NOT EXISTS routine (timestamp INTEGER, lat REAL, lng REAL, roll REAL, pitch REAL, yaw REAL, acc_x REAL, acc_y REAL, acc_z REAL, gyro_x REAL, gyro_y REAL, gyro_z REAL, pressure REAL, temp REAL, air REAL, attitude REAL)');
+        let insert = "INSERT INTO routine(timestamp, lat, lng, roll, pitch, yaw, gyro_x, gyro_y, gyro_z, acc_x, acc_y, acc_z, pressure, temp, air, attitude) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        dbRoutine.run(insert, [Date.now(), req.body.location.lat, req.body.location.lng, req.body.angle.roll, req.body.angle.pitch, req.body.angle.yaw, req.body.gyro.x, req.body.gyro.y, req.body.gyro.z, req.body.acc.x, req.body.acc.y, req.body.acc.z, req.body.pressure, req.body.temp, req.body.air_quality, req.body.attitude]);
         dbRoutine.close();
         res.end();
     });
@@ -39,10 +46,19 @@ router.post('/api/uploadRoutineData', (req, res) => {
 router.post('/api/getRoutineData', (req, res) => {
     dbRoutine = new sqlite3.Database('data/' + req.body.uuid + '.db');
     dbRoutine.serialize(() => {
-        dbRoutine.run('CREATE TABLE IF NOT EXISTS routine (timestamp INTEGER, lat REAL, lng REAL, acc_x REAL, acc_y REAL, acc_z REAL, gyro_x REAL, gyro_y REAL, gyro_z REAL, pressure REAL, temp REAL, air REAL)');
+        dbRoutine.run('CREATE TABLE IF NOT EXISTS routine (timestamp INTEGER, lat REAL, lng REAL, roll REAL, pitch REAL, yaw REAL, acc_x REAL, acc_y REAL, acc_z REAL, gyro_x REAL, gyro_y REAL, gyro_z REAL, pressure REAL, temp REAL, air REAL, attitude REAL)');
         let field = '';
         console.log(req.body);
         switch (req.body.type) {
+            case 'Roll':
+                field = 'roll';
+                break;
+            case 'Pitch':
+                field = 'pitch';
+                break;
+            case 'Yaw':
+                field = 'yaw';
+                break;
             case 'Gyro X':
                 field = 'gyro_x';
                 break;
@@ -60,6 +76,18 @@ router.post('/api/getRoutineData', (req, res) => {
                 break;
             case 'Acc Z':
                 field = 'acc_z';
+                break;
+            case 'Pressure':
+                field = 'pressure';
+                break;
+            case 'Temperature':
+                field = 'temp';
+                break;
+            case 'Air Quality':
+                field = 'air_quality';
+                break;
+            case 'Attitude':
+                field = 'attitude';
                 break;
         }
         let dateStart = new Date(req.body.date);
