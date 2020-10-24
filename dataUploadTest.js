@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 
 let data = () => ({
-    "uuid": '0',
+    "uuid": 'babc1bb1-d596-444c-9079-73433a06a28f',
     "location": {
         "lat": 40.00,
         "lng": 33.12
@@ -22,7 +22,7 @@ let data = () => ({
 });
 
 setInterval(() => {
-fetch('http://localhost:8080/api/uploadRoutineData', {
+fetch('http://140.113.168.238/api/uploadRoutineData', {
     method: 'POST',
     body: JSON.stringify(data()),
     headers: {
